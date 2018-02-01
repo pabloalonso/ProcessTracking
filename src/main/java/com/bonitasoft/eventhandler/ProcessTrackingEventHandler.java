@@ -1,12 +1,12 @@
 package com.bonitasoft.eventhandler;
 
 import org.bonitasoft.engine.core.process.definition.exception.SProcessDefinitionNotFoundException;
-import org.bonitasoft.engine.core.process.definition.exception.SProcessDefinitionReadException;
 import org.bonitasoft.engine.core.process.definition.model.SProcessDefinition;
 import org.bonitasoft.engine.core.process.instance.model.SProcessInstance;
 import org.bonitasoft.engine.events.model.SEvent;
 import org.bonitasoft.engine.events.model.SHandler;
 import org.bonitasoft.engine.events.model.SHandlerExecutionException;
+import org.bonitasoft.engine.persistence.SBonitaReadException;
 import org.bonitasoft.engine.service.TenantServiceAccessor;
 import org.bonitasoft.engine.service.impl.ServiceAccessorFactory;
 
@@ -30,6 +30,7 @@ public class ProcessTrackingEventHandler implements SHandler<SEvent> {
         super();
         this.tenantId = tenantId;
         this.showSubProcesses = showSubProcesses;
+        logger.severe("ProcessTrackingEventHandler CREATED");
     }
 
     public void execute(SEvent sEvent) throws SHandlerExecutionException {
@@ -62,10 +63,10 @@ public class ProcessTrackingEventHandler implements SHandler<SEvent> {
                         }
                     }
                     if(output != null)
-                        logger.warning(output);
+                        logger.severe(output);
                 } catch (SProcessDefinitionNotFoundException e) {
                     logger.severe("PROCESS TRACKING - ProcessDefinition with id "+ processInstance.getProcessDefinitionId() + " not found");
-                } catch (SProcessDefinitionReadException e) {
+                } catch (SBonitaReadException e) {
                     logger.severe("PROCESS TRACKING - Unable to read ProcessDefinition with id "+ processInstance.getProcessDefinitionId());
                 }
             }

@@ -1,11 +1,7 @@
 package com.bonitasoft.eventhandler;
 
 import org.bonitasoft.engine.bpm.flownode.ActivityStates;
-import org.bonitasoft.engine.core.process.definition.exception.SProcessDefinitionNotFoundException;
-import org.bonitasoft.engine.core.process.definition.exception.SProcessDefinitionReadException;
-import org.bonitasoft.engine.core.process.definition.model.SProcessDefinition;
 import org.bonitasoft.engine.core.process.instance.model.SActivityInstance;
-import org.bonitasoft.engine.core.process.instance.model.SProcessInstance;
 import org.bonitasoft.engine.events.model.SEvent;
 import org.bonitasoft.engine.events.model.SHandler;
 import org.bonitasoft.engine.events.model.SHandlerExecutionException;
@@ -31,6 +27,7 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
     public TaskTrackingEventHandler(long tenantId){
         super();
         this.tenantId = tenantId;
+        logger.severe("TaskTrackingEventHandler CREATED");
 
     }
 
@@ -65,7 +62,7 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
                     }
                 }
                     if (output != null)
-                        logger.warning(output);
+                        logger.severe(output);
                 }catch (Exception e){
                     logger.severe("TASK TRACKING - We have found an issue");
                     e.printStackTrace();
@@ -75,18 +72,23 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
     }
 
     public boolean isInterested(SEvent sEvent) {
-
+        logger.severe("TaskTrackingEventHandler INTERESTED?");
         boolean isInterested = false;
+        try{
 
-        // Get the object associated with the event
-        Object eventObject = sEvent.getObject();
+            // Get the object associated with the event
+            Object eventObject = sEvent.getObject();
 
-        // Check that event is related to a task
-        if (eventObject instanceof SActivityInstance) {
-            SActivityInstance activityInstance = (SActivityInstance) eventObject;
-            isInterested = true;
-         }
+            // Check that event is related to a task
+            if (eventObject instanceof SActivityInstance) {
+                SActivityInstance activityInstance = (SActivityInstance) eventObject;
+                isInterested = true;
+             }
 
+        }catch(Exception e){
+            logger.severe("TaskTrackingEventHandler EXCEPTION = "+e.getMessage());
+        }
+        logger.severe("TaskTrackingEventHandler INTERESTED = "+isInterested);
         return isInterested;
     }
 

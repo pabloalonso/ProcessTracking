@@ -1,6 +1,6 @@
 package com.bonitasoft.eventhandler;
 
-import org.bonitasoft.engine.bpm.flownode.ActivityStates;
+
 import org.bonitasoft.engine.core.process.instance.model.SActivityInstance;
 import org.bonitasoft.engine.core.process.instance.model.SConnectorInstance;
 import org.bonitasoft.engine.events.model.SEvent;
@@ -29,6 +29,7 @@ public class ConnectorTrackingEventHandler implements SHandler<SEvent> {
     public ConnectorTrackingEventHandler(long tenantId){
         super();
         this.tenantId = tenantId;
+        logger.severe("ConnectorTrackingEventHandler CREATED");
     }
 
     public void execute(SEvent sEvent) throws SHandlerExecutionException {
@@ -45,7 +46,7 @@ public class ConnectorTrackingEventHandler implements SHandler<SEvent> {
                 final Date startDate =  new Date(System.currentTimeMillis());
 
                     output = "CONNECTOR TRACKING - " + connectorInstance.getState() +" -  caseId: " + caseId+ " - taskId: "+ activityInstance.getId()+ " - taskName: " + activityInstance.getName() + " - connectorId: " +connectorInstance.getId() + " - connector: " +connectorInstance.getName() +" - type: "+connectorInstance.getConnectorId()+ " - date: " + format.format(startDate);
-                    logger.warning(output);
+                    logger.severe(output);
                 }catch (Exception e){
                     logger.severe("TASK TRACKING - We have found an issue");
                     e.printStackTrace();
