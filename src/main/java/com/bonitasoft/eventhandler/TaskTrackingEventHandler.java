@@ -5,6 +5,8 @@ import org.bonitasoft.engine.core.process.instance.model.SActivityInstance;
 import org.bonitasoft.engine.events.model.SEvent;
 import org.bonitasoft.engine.events.model.SHandler;
 import org.bonitasoft.engine.events.model.SHandlerExecutionException;
+import org.bonitasoft.engine.log.technical.TechnicalLogSeverity;
+import org.bonitasoft.engine.log.technical.TechnicalLoggerService;
 import org.bonitasoft.engine.service.TenantServiceAccessor;
 import org.bonitasoft.engine.service.impl.ServiceAccessorFactory;
 
@@ -12,22 +14,32 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * Created by Pablo Alonso de Linaje on 04/05/2017.
  */
 public class TaskTrackingEventHandler implements SHandler<SEvent> {
-    private Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
+    //private Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
+    private final TechnicalLoggerService technicalLoggerService;
+    private TechnicalLogSeverity technicalLogSeverityWarning;
+    private TechnicalLogSeverity technicalLogSeveritySevere;
     private long tenantId;
 
     private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS", Locale.FRANCE);
     private static final String ACTIVITYINSTANCE_CREATED = "ACTIVITYINSTANCE_CREATED";
 
-    public TaskTrackingEventHandler(long tenantId){
+    public TaskTrackingEventHandler(long tenantId, TechnicalLoggerService technicalLoggerService){
         super();
         this.tenantId = tenantId;
-        logger.severe("TaskTrackingEventHandler CREATED");
+        this.technicalLoggerService = technicalLoggerService;
+        this.technicalLogSeverityWarning = TechnicalLogSeverity.valueOf("WARNING");
+        try {
+            this.technicalLogSeveritySevere = TechnicalLogSeverity.valueOf("ERROR");
+        }catch (Exception e){
+            this.technicalLogSeveritySevere = TechnicalLogSeverity.valueOf("WARNING");
+        }
+        technicalLoggerService.log(this.getClass(), technicalLogSeverityWarning,"TaskTrackingEventHandler CREATED");
+        //logger.severe("TaskTrackingEventHandler CREATED");
 
     }
 
@@ -62,9 +74,11 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
                     }
                 }
                     if (output != null)
-                        logger.severe(output);
+                        technicalLoggerService.log(this.getClass(), technicalLogSeverityWarning,output);
+                        //logger.severe(output);
                 }catch (Exception e){
-                    logger.severe("TASK TRACKING - We have found an issue");
+                    technicalLoggerService.log(this.getClass(), technicalLogSeveritySevere,"TASK TRACKING - We have found an issue");
+                    //logger.severe("TASK TRACKING - We have found an issue");
                     e.printStackTrace();
                 }
             }
@@ -72,7 +86,7 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
     }
 
     public boolean isInterested(SEvent sEvent) {
-        logger.severe("TaskTrackingEventHandler INTERESTED?");
+        technicalLoggerService.log(this.getClass(), technicalLogSeveritySevere,"TaskTrackingEventHandler INTERESTED?");
         boolean isInterested = false;
         try{
 
@@ -86,9 +100,11 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
              }
 
         }catch(Exception e){
-            logger.severe("TaskTrackingEventHandler EXCEPTION = "+e.getMessage());
+            technicalLoggerService.log(this.getClass(), technicalLogSeveritySevere,"TaskTrackingEventHandler EXCEPTION = "+e.getMessage());
+            //logger.severe("TaskTrackingEventHandler EXCEPTION = "+e.getMessage());
         }
-        logger.severe("TaskTrackingEventHandler INTERESTED = "+isInterested);
+        technicalLoggerService.log(this.getClass(), technicalLogSeveritySevere,"TaskTrackingEventHandler INTERESTED = "+isInterested);
+        //logger.severe("TaskTrackingEventHandler INTERESTED = "+isInterested);
         return isInterested;
     }
 
