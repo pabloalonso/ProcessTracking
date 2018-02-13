@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * Created by Pablo Alonso de Linaje on 04/05/2017.
  */
 public class TaskTrackingEventHandler implements SHandler<SEvent> {
-    private Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
+    private static Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
     private long tenantId;
 
     private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS", Locale.FRANCE);
@@ -27,7 +27,6 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
     public TaskTrackingEventHandler(long tenantId){
         super();
         this.tenantId = tenantId;
-        logger.severe("TaskTrackingEventHandler CREATED");
 
     }
 
@@ -72,7 +71,6 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
     }
 
     public boolean isInterested(SEvent sEvent) {
-        logger.severe("TaskTrackingEventHandler INTERESTED?");
         boolean isInterested = false;
         try{
 
@@ -88,7 +86,7 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
         }catch(Exception e){
             logger.severe("TaskTrackingEventHandler EXCEPTION = "+e.getMessage());
         }
-        logger.severe("TaskTrackingEventHandler INTERESTED = "+isInterested);
+
         return isInterested;
     }
 

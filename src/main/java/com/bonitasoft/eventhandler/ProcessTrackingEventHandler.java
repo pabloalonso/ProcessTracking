@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * Created by Pablo Alonso de Linaje on 04/05/2017.
  */
 public class ProcessTrackingEventHandler implements SHandler<SEvent> {
-    private Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
+    private static Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
     private long tenantId;
     private boolean showSubProcesses;
     private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);

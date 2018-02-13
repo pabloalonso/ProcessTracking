@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * Created by Pablo Alonso de Linaje on 04/05/2017.
  */
 public class ConnectorTrackingEventHandler implements SHandler<SEvent> {
-    private Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
+    private static Logger logger = Logger.getLogger("com.bonitasoft.eventhandler");
     private long tenantId;
     private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS", Locale.FRANCE);
     private static final String CONNECTOR_INSTANCE_CREATED = "CONNECTOR_INSTANCE_CREATED";
@@ -29,7 +29,7 @@ public class ConnectorTrackingEventHandler implements SHandler<SEvent> {
     public ConnectorTrackingEventHandler(long tenantId){
         super();
         this.tenantId = tenantId;
-        logger.severe("ConnectorTrackingEventHandler CREATED");
+
     }
 
     public void execute(SEvent sEvent) throws SHandlerExecutionException {
