@@ -63,7 +63,7 @@ public class ProcessTrackingEventHandler implements SHandler<SEvent> {
                         }
                     }
                     if(output != null)
-                        logger.severe(output);
+                        logger.info(output);
                 } catch (SProcessDefinitionNotFoundException e) {
                     logger.severe("PROCESS TRACKING - ProcessDefinition with id "+ processInstance.getProcessDefinitionId() + " not found");
                 } catch (SBonitaReadException e) {

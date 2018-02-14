@@ -61,7 +61,7 @@ public class TaskTrackingEventHandler implements SHandler<SEvent> {
                     }
                 }
                     if (output != null)
-                        logger.severe(output);
+                        logger.info(output);
                 }catch (Exception e){
                     logger.severe("TASK TRACKING - We have found an issue");
                     e.printStackTrace();

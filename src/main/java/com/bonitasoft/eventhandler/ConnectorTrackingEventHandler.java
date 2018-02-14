@@ -46,7 +46,7 @@ public class ConnectorTrackingEventHandler implements SHandler<SEvent> {
                 final Date startDate =  new Date(System.currentTimeMillis());
 
                     output = "CONNECTOR TRACKING - " + connectorInstance.getState() +" -  caseId: " + caseId+ " - taskId: "+ activityInstance.getId()+ " - taskName: " + activityInstance.getName() + " - connectorId: " +connectorInstance.getId() + " - connector: " +connectorInstance.getName() +" - type: "+connectorInstance.getConnectorId()+ " - date: " + format.format(startDate);
-                    logger.severe(output);
+                    logger.info(output);
                 }catch (Exception e){
                     logger.severe("TASK TRACKING - We have found an issue");
                     e.printStackTrace();
